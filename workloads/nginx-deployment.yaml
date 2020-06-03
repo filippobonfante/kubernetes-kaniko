@@ -5,6 +5,9 @@ metadata:
   name: nginx-deployment
   namespace: web
   annotations:
+    # If you notice the annotations, it has fluxcd.io/automated: "true".
+    # This means that if we use Flux CD to deploy this manifest, Flux CD auto-updates it with the new version of NGINX image
+    # when it becomes available in the Docker repository.
     fluxcd.io/automated: "true"
 spec:
   selector:
@@ -17,7 +20,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: <repo>/<tag>
-        ports:
-        - containerPort: 80
+        - name: nginx
+          image: kube-kaniko/nginx:v3
+          ports:
+            - containerPort: 80
